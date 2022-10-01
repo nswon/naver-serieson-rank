@@ -4,8 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import movie.movie.domain.comment.domain.Comment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +37,9 @@ public class Post {
     @Column(nullable = false)
     private int view;
 
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     @Builder
     public Post(String imgPath, String title, String content, int view, double average, String date) {
         this.imgPath = imgPath;
@@ -42,5 +48,9 @@ public class Post {
         this.view = view;
         this.average = average;
         this.movieDate = date;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 }

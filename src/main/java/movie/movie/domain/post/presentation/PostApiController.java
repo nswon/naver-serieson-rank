@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post/ranking")
+@RequestMapping("/post")
 public class PostApiController {
 
     private final PostService postService;
