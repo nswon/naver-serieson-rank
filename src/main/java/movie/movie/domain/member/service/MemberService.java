@@ -50,6 +50,4 @@ public class MemberService {
                 .cookie(cookie)
                 .build();
     }
-
-
 }

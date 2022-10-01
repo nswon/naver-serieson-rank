@@ -4,9 +4,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import movie.movie.domain.commentLike.domain.CommentLike;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +29,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "member")
+    List<CommentLike> commentLikes = new ArrayList<>();
+
     @Builder
     public Member(String email, String nickname, String password) {
         this.email = email;
@@ -39,5 +45,9 @@ public class Member {
 
     public void addUserAuthority() {
         this.role = Role.ROLE_USER;
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        commentLikes.add(commentLike);
     }
 }
