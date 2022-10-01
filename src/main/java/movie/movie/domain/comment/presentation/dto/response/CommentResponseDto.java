@@ -11,10 +11,14 @@ public class CommentResponseDto {
     private final String nickname;
     private final String content;
     private final LocalDateTime createdDate;
+    private final int likeCount;
+    private final int unLikeCount;
 
     public CommentResponseDto(Comment comment) {
         this.nickname = comment.getNickname();
         this.content = comment.getContent();
         this.createdDate = comment.getCreatedDate();
+        this.likeCount = comment.getCommentLikes().size();
+        this.unLikeCount = comment.getCommentUnLikes().size();
     }
 }
