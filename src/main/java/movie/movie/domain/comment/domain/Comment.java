@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.post.domain.Post;
 import movie.movie.global.entity.BaseTimeEntity;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

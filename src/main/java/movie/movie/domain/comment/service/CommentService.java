@@ -25,6 +25,7 @@ public class CommentService {
         Comment comment = requestDto.toEntity();
         comment.confirmPost(post);
 
+//        commentRepository.saveComment(comment.getCreatedDate(), comment.getNickname(), comment.getContent(), comment.getPost().getId());
         commentRepository.save(comment);
     }
 }
