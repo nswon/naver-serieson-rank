@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import movie.movie.domain.comment.domain.Comment;
+import movie.movie.domain.commentLike.domain.CommentLike;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,7 +39,10 @@ public class Post {
     private int view;
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private final List<CommentLike> commentLikes = new ArrayList<>();
 
     @Builder
     public Post(String imgPath, String title, String content, int view, double average, String date) {
@@ -52,5 +56,9 @@ public class Post {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        commentLikes.add(commentLike);
     }
 }

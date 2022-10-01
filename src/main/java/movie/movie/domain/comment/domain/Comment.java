@@ -4,12 +4,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.post.domain.Post;
 import movie.movie.global.entity.BaseTimeEntity;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +33,9 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @OneToMany(mappedBy = "post")
+    private final List<CommentLike> commentLikes = new ArrayList<>();
+
     @Builder
     public Comment(String nickname, String content) {
         this.nickname = nickname;
@@ -39,5 +45,9 @@ public class Comment extends BaseTimeEntity {
     public void confirmPost(Post post) {
         this.post = post;
         post.addComment(this);
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        commentLikes.add(commentLike);
     }
 }
