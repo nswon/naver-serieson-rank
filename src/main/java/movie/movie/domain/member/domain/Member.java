@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import movie.movie.domain.commentLike.domain.CommentLike;
+import movie.movie.domain.commentUnLike.domain.CommentUnLike;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -32,6 +33,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     List<CommentLike> commentLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    List<CommentUnLike> commentUnLikes = new ArrayList<>();
+
     @Builder
     public Member(String email, String nickname, String password) {
         this.email = email;
@@ -49,5 +53,9 @@ public class Member {
 
     public void addCommentLike(CommentLike commentLike) {
         commentLikes.add(commentLike);
+    }
+
+    public void addCommentUnLike(CommentUnLike commentUnLike) {
+        commentUnLikes.add(commentUnLike);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
@@ -42,8 +43,19 @@ public class JwtTokenProvider {
     }
 
     public String resolveAccessToken(HttpServletRequest request) {
-        log.info("토큰 들고옴 = " + request.getHeader(HEADER_ACCESS_TOKEN));
-        return request.getHeader(HEADER_ACCESS_TOKEN);
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies != null) {
+            for(Cookie c : cookies) {
+                if(c.getName().equals(HEADER_ACCESS_TOKEN)) {
+                    return c.getValue();
+                }
+            }
+        }
+        else {
+            throw new IllegalArgumentException("쿠키가 존재하지 않습니다.");
+        }
+        return null;
     }
 
     public String getUserEmail(String token) {

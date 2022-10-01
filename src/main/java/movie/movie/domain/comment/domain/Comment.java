@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import movie.movie.domain.commentLike.domain.CommentLike;
+import movie.movie.domain.commentUnLike.domain.CommentUnLike;
 import movie.movie.domain.post.domain.Post;
 import movie.movie.global.entity.BaseTimeEntity;
 
@@ -34,6 +35,9 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "post")
     private final List<CommentLike> commentLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment")
+    private final List<CommentUnLike> commentUnLikes = new ArrayList<>();
+
     @Builder
     public Comment(String nickname, String content) {
         this.nickname = nickname;
@@ -47,5 +51,9 @@ public class Comment extends BaseTimeEntity {
 
     public void addCommentLike(CommentLike commentLike) {
         commentLikes.add(commentLike);
+    }
+
+    public void addCommentUnLike(CommentUnLike commentUnLike) {
+        commentUnLikes.add(commentUnLike);
     }
 }
