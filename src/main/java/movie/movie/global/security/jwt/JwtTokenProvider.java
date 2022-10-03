@@ -31,6 +31,7 @@ public class JwtTokenProvider {
     private static final String HEADER_ACCESS_TOKEN = "ACCESS_TOKEN";
 
     public String createAccessToken(String email, String role) {
+        log.info(">>>>>>>>>>>>>>토큰 만듬");
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
         Date now = new Date();
@@ -43,6 +44,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveAccessToken(HttpServletRequest request) {
+        log.info(">>>>>>>>>>>>여기에 접근하면 안됨");
         Cookie[] cookies = request.getCookies();
 
         if(cookies != null) {

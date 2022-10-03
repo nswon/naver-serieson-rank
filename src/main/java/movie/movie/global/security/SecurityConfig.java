@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -37,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/member/join", "/member/login");
+                .antMatchers("/member/join")
+                .antMatchers("/member/login")
+                .antMatchers("/test");
     }
 
     @Override
@@ -52,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/member/join", "/member/login").permitAll()
                 .antMatchers("/post/view", "/post/date").permitAll()
+                .antMatchers("/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),
@@ -64,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedOrigin("/**");
-        configuration.setAllowedOrigins(Arrays.asList("localhost:3000"));
+        configuration.setAllowedOrigins(List.of("localhost:3000"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
