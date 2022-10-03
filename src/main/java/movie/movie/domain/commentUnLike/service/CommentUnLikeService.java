@@ -35,24 +35,25 @@ public class CommentUnLikeService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
-        if(!commentLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
+        if(commentLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
             throw new IllegalArgumentException("이미 공감한 글입니다.");
         }
 
-        if(!commentUnLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
+        if(commentUnLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
             commentUnLikeRepository.deleteByPostAndCommentAndMember(post, comment, member);
         }
+        else {
+            CommentUnLike commentUnLike = CommentUnLike.builder()
+                    .post(post)
+                    .comment(comment)
+                    .member(member)
+                    .build();
 
-        CommentUnLike commentUnLike = CommentUnLike.builder()
-                .post(post)
-                .comment(comment)
-                .member(member)
-                .build();
+            commentUnLike.confirmPost(post);
+            commentUnLike.confirmComment(comment);
+            commentUnLike.confirmMember(member);
 
-        commentUnLike.confirmPost(post);
-        commentUnLike.confirmComment(comment);
-        commentUnLike.confirmMember(member);
-
-        commentUnLikeRepository.save(commentUnLike);
+            commentUnLikeRepository.save(commentUnLike);
+        }
     }
 }

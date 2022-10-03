@@ -56,6 +56,7 @@ public class JwtTokenProvider {
             throw new IllegalArgumentException("쿠키가 존재하지 않습니다.");
         }
         return null;
+//        return request.getHeader(HEADER_ACCESS_TOKEN);
     }
 
     public String getUserEmail(String token) {

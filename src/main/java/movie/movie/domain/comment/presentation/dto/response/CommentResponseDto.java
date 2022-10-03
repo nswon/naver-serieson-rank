@@ -15,7 +15,7 @@ public class CommentResponseDto {
     private final int unLikeCount;
 
     public CommentResponseDto(Comment comment) {
-        this.nickname = comment.getNickname();
+        this.nickname = comment.getMember().getNickname();
         this.content = comment.getContent();
         this.createdDate = comment.getCreatedDate();
         this.likeCount = comment.getCommentLikes().size();

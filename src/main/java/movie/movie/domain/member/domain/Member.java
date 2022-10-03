@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import movie.movie.domain.comment.domain.Comment;
 import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.commentUnLike.domain.CommentUnLike;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,9 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "member")
+    List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     List<CommentLike> commentLikes = new ArrayList<>();
@@ -57,5 +61,9 @@ public class Member {
 
     public void addCommentUnLike(CommentUnLike commentUnLike) {
         commentUnLikes.add(commentUnLike);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 }

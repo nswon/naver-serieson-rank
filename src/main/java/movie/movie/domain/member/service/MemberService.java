@@ -1,6 +1,7 @@
 package movie.movie.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import movie.movie.domain.member.domain.Member;
 import movie.movie.domain.member.domain.MemberRepository;
 import movie.movie.domain.member.presentation.dto.request.MemberJoinRequestDto;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -34,17 +37,19 @@ public class MemberService {
     }
 
     @Transactional
-    public TokenResponseDto login(MemberLoginRequestDto requestDto) {
+    public TokenResponseDto login(MemberLoginRequestDto requestDto, HttpServletResponse res) {
         Member member = memberRepository.findByEmail(requestDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
 
-        if(!passwordEncoder.matches(member.getPassword(), requestDto.getPassword())) {
+        if(!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getRole().name());
         Cookie cookie = new Cookie("ACCESS_TOKEN", accessToken);
         cookie.setHttpOnly(true);
+        cookie.setDomain("localhost");
+        res.addCookie(cookie);
 
         return TokenResponseDto.builder()
                 .cookie(cookie)

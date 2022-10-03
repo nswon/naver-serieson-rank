@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.commentUnLike.domain.CommentUnLike;
+import movie.movie.domain.member.domain.Member;
 import movie.movie.domain.post.domain.Post;
 import movie.movie.global.entity.BaseTimeEntity;
 
@@ -22,15 +23,16 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "comment_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String nickname;
-
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "post")
     private final List<CommentLike> commentLikes = new ArrayList<>();
@@ -39,14 +41,18 @@ public class Comment extends BaseTimeEntity {
     private final List<CommentUnLike> commentUnLikes = new ArrayList<>();
 
     @Builder
-    public Comment(String nickname, String content) {
-        this.nickname = nickname;
+    public Comment(String content) {
         this.content = content;
     }
 
     public void confirmPost(Post post) {
         this.post = post;
         post.addComment(this);
+    }
+
+    public void confirmMember(Member member) {
+        this.member = member;
+        member.addComment(this);
     }
 
     public void addCommentLike(CommentLike commentLike) {

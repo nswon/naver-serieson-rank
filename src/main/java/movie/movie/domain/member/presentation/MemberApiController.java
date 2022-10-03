@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -23,7 +25,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/login")
-    public TokenResponseDto login(@RequestBody MemberLoginRequestDto requestDto) {
-        return memberService.login(requestDto);
+    public TokenResponseDto login(@RequestBody MemberLoginRequestDto requestDto, HttpServletResponse res) {
+        return memberService.login(requestDto, res);
     }
 }

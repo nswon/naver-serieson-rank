@@ -35,23 +35,24 @@ public class CommentLikeService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        if(!commentUnLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
+        if(commentUnLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
             throw new IllegalArgumentException("이미 공감한 글입니다.");
         }
 
         if(commentLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
             commentLikeRepository.deleteByPostAndCommentAndMember(post, comment, member);
         }
+        else {
+            CommentLike commentLike = CommentLike.builder()
+                    .post(post)
+                    .comment(comment)
+                    .member(member)
+                    .build();
 
-        CommentLike commentLike = CommentLike.builder()
-                .post(post)
-                .comment(comment)
-                .member(member)
-                .build();
-
-        commentLike.confirmComment(comment);
-        commentLike.confirmPost(post);
-        commentLike.confirmMember(member);
-        commentLikeRepository.save(commentLike);
+            commentLike.confirmComment(comment);
+            commentLike.confirmPost(post);
+            commentLike.confirmMember(member);
+            commentLikeRepository.save(commentLike);
+        }
     }
 }
