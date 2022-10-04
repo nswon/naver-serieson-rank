@@ -30,7 +30,7 @@ public class PostService {
     }
 
     public PostDetailResponseDto findPostById(Long id) {
-        return postRepository.findById(id)
+        return postRepository.getPostById(id)
                 .map(PostDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("영화가 존재하지 않습니다."));
     }
