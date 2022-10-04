@@ -3,7 +3,7 @@ package movie.movie.domain.member.presentation;
 import lombok.RequiredArgsConstructor;
 import movie.movie.domain.member.presentation.dto.request.MemberJoinRequestDto;
 import movie.movie.domain.member.presentation.dto.request.MemberLoginRequestDto;
-import movie.movie.domain.member.presentation.dto.response.TokenResponseDto;
+import movie.movie.domain.member.presentation.dto.response.MemberResponseDto;
 import movie.movie.domain.member.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +23,13 @@ public class MemberApiController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody MemberLoginRequestDto requestDto, HttpServletResponse res) {
-        String accessToken = memberService.login(requestDto);
-        Cookie cookie = new Cookie("ACCESS_TOKEN", accessToken);
+    public String login(@RequestBody MemberLoginRequestDto requestDto, HttpServletResponse res) {
+        MemberResponseDto response = memberService.login(requestDto);
+        Cookie cookie = new Cookie("ACCESS_TOKEN", response.getAccessToken());
         cookie.setHttpOnly(false);
         cookie.setPath("/");
 //        cookie.setDomain("localhost");
         res.addCookie(cookie);
+        return response.getNickname();
     }
 }

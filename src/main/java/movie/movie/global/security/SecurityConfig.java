@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .antMatchers("/member/join", "/member/login");
+                .antMatchers("/member/join", "/member/login")
+                .antMatchers("/post/**");
     }
 
     @Override
@@ -51,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/member/join/**", "/member/login/**").permitAll()
                 .antMatchers("/post/view", "/post/date").permitAll()
                 .anyRequest().authenticated()
                 .and()
