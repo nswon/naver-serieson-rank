@@ -30,6 +30,10 @@ public class JwtTokenProvider {
     private final long ACCESS_TOKEN_VALID_TIME = 30 * 24 * 60 * 60 * 1000L;
     private static final String HEADER_ACCESS_TOKEN = "ACCESS_TOKEN";
 
+    public String test() {
+        return "여기에 접근하면 안됩니다!";
+    }
+
     public String createAccessToken(String email, String role) {
         log.info(">>>>>>>>>>>>>>토큰 만듬");
         Claims claims = Jwts.claims().setSubject(email);
@@ -58,7 +62,6 @@ public class JwtTokenProvider {
             throw new IllegalArgumentException("쿠키가 존재하지 않습니다.");
         }
         return null;
-//        return request.getHeader(HEADER_ACCESS_TOKEN);
     }
 
     public String getUserEmail(String token) {
