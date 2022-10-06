@@ -22,7 +22,7 @@ public class CommentService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void createComment(Long postId, CommentCreateRequestDto requestDto) {
+    public boolean createComment(Long postId, CommentCreateRequestDto requestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("영화가 존재하지 않습니다."));
 
@@ -35,5 +35,6 @@ public class CommentService {
 
 //        commentRepository.saveComment(comment.getCreatedDate(), comment.getNickname(), comment.getContent(), comment.getPost().getId());
         commentRepository.save(comment);
+        return true;
     }
 }

@@ -30,7 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailsService customUserDetailsService;
 
-    //git push 확인 테스트
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
