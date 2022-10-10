@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import movie.movie.domain.comment.domain.Comment;
 import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.commentUnLike.domain.CommentUnLike;
+import movie.movie.domain.member.domain.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class Post {
     @Column(nullable = false)
     private int view;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
+
     @OneToMany(mappedBy = "post")
     private final List<Comment> comments = new ArrayList<>();
 
@@ -68,5 +72,10 @@ public class Post {
 
     public void addCommentUnLike(CommentUnLike commentUnLike) {
         commentUnLikes.add(commentUnLike);
+    }
+
+    public void confirmMember(Member member) {
+        this.member = member;
+        member.addPost(this);
     }
 }

@@ -1,6 +1,7 @@
 package movie.movie.domain.commentLike.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import movie.movie.domain.comment.domain.Comment;
 import movie.movie.domain.comment.domain.CommentRepository;
 import movie.movie.domain.commentLike.domain.CommentLike;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
