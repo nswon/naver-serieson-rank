@@ -26,15 +26,14 @@ public class CommentService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("영화가 존재하지 않습니다."));
 
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+        Member member = memberRepository.getMemberByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
         Comment comment = requestDto.toEntity();
         comment.confirmPost(post);
         comment.confirmMember(member);
 
-//        commentRepository.saveComment(comment.getCreatedDate(), comment.getNickname(), comment.getContent(), comment.getPost().getId());
-        commentRepository.save(comment);
+        commentRepository.saveComment(comment.getContent(), comment.getMember().getId(), comment.getPost().getId());
         return true;
     }
 }

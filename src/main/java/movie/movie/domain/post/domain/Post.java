@@ -19,7 +19,6 @@ import java.util.List;
 public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
     private Long id;
 
     @Column(nullable = false)
@@ -39,9 +38,6 @@ public class Post {
 
     @Column(nullable = false)
     private int view;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
 
     @OneToMany(mappedBy = "post")
     private final List<Comment> comments = new ArrayList<>();
@@ -74,8 +70,4 @@ public class Post {
         commentUnLikes.add(commentUnLike);
     }
 
-    public void confirmMember(Member member) {
-        this.member = member;
-        member.addPost(this);
-    }
 }

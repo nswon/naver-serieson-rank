@@ -20,7 +20,6 @@ import java.util.List;
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
     private String email;
@@ -31,9 +30,6 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "member")
-    List<Post> postList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     List<Comment> comments = new ArrayList<>();
@@ -71,7 +67,4 @@ public class Member {
         comments.add(comment);
     }
 
-    public void addPost(Post post) {
-        postList.add(post);
-    }
 }

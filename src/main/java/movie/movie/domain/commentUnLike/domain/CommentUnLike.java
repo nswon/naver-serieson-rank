@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class CommentUnLike {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_un_like_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +29,8 @@ public class CommentUnLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    private long count;
 
     @Builder
     public CommentUnLike(Post post, Member member, Comment comment) {
@@ -51,5 +52,9 @@ public class CommentUnLike {
     public void confirmComment(Comment comment) {
         this.comment = comment;
         comment.addCommentUnLike(this);
+    }
+
+    public void addCount() {
+        this.count++;
     }
 }

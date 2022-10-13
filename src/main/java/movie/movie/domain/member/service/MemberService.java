@@ -24,20 +24,19 @@ public class MemberService {
 
     @Transactional
     public void join(MemberJoinRequestDto requestDto) {
-        log.info(">>>>>>>>>>회원가입 됨");
-        if(memberRepository.findByEmail(requestDto.getEmail()).isPresent()) {
+        if(memberRepository.getMemberByEmail(requestDto.getEmail()).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
 
-        Member member = memberRepository.save(requestDto.toEntity());
-        member.encodedPassword(passwordEncoder);
-        member.addUserAuthority();
+//        Member member = memberRepository.save(requestDto.toEntity());
+        memberRepository.saveMember(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), "ROLE_USER");
+
+//        member.encodedPassword(passwordEncoder);
     }
 
     @Transactional
     public MemberResponseDto login(MemberLoginRequestDto requestDto) {
-        log.info(">>>>>>>>>>>>>>>로그인 시작");
-        Member member = memberRepository.findByEmail(requestDto.getEmail())
+        Member member = memberRepository.getMemberByEmail(requestDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
 
         if(!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {

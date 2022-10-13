@@ -34,7 +34,7 @@ public class CommentLikeService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재히지 않습니다."));
 
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+        Member member = memberRepository.getMemberByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
         if(commentUnLikeRepository.existsByPostAndCommentAndMember(post, comment, member)) {
@@ -54,6 +54,7 @@ public class CommentLikeService {
             commentLike.confirmComment(comment);
             commentLike.confirmPost(post);
             commentLike.confirmMember(member);
+            commentLike.addCount();
             commentLikeRepository.save(commentLike);
         }
     }

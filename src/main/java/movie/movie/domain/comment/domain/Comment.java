@@ -8,7 +8,6 @@ import movie.movie.domain.commentLike.domain.CommentLike;
 import movie.movie.domain.commentUnLike.domain.CommentUnLike;
 import movie.movie.domain.member.domain.Member;
 import movie.movie.domain.post.domain.Post;
-import movie.movie.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,10 +16,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment extends BaseTimeEntity {
+public class Comment {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
