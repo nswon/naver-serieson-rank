@@ -28,10 +28,10 @@ public class MemberService {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
 
-//        Member member = memberRepository.save(requestDto.toEntity());
-        memberRepository.saveMember(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), "ROLE_USER");
-
-//        member.encodedPassword(passwordEncoder);
+        Member member = memberRepository.save(requestDto.toEntity());
+//        memberRepository.saveMember(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPassword(), "ROLE_USER");
+        member.addUserAuthority();
+        member.encodedPassword(passwordEncoder);
     }
 
     @Transactional
