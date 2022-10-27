@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(value = "select * from post p order by p.view desc limit 0, 5", nativeQuery = true)
+    @Query(value = "select * from post p order by p.view", nativeQuery = true)
     List<Post> getPostByView();
 
-    @Query(value = "select * from post p order by p.movie_date desc limit 0, 5", nativeQuery = true)
+    @Query(value = "select * from post p order by p.movie_date", nativeQuery = true)
     List<Post> getPostByDate();
 
     @Query(value = "select * from post p where p.id = :id", nativeQuery = true)
